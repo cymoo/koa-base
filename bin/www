@@ -1,0 +1,57 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies
+ */
+
+const app = require('../app.js')
+const log = require('debug')('koa-base:server')
+const http = require('http')
+
+/**
+ * Get port from environment
+ */
+
+const host = process.env.HOST || app.config.HOST || '127.0.0.1'
+const port = Number((process.env.PORT || app.config.PORT || 3000))
+
+/**
+ * Create HTTP server
+ */
+
+const server = http.createServer(app.callback())
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port)
+
+server.on('error', onError)
+server.on('listening', () => {
+  log(`server running at ${host}:${port}`)
+})
+
+/**
+ * Event listener for HTTP server "error" event
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error
+  }
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(`port ${port} requires elevated privileges`)
+      process.exit(1)
+      break
+    case 'EADDRINUSE':
+      console.error(`port ${port} is already in use`)
+      process.exit(1)
+      break
+    default:
+      throw error
+  }
+}

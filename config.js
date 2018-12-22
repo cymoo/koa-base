@@ -1,6 +1,7 @@
 
 const baseConfig = {
-  SECRET_KEY: 'take my hands that i might reach you',
+  SECRET_KEY: 'foo said i you do not know',
+  HOST: '127.0.0.1',
   PORT: 7000
 }
 
