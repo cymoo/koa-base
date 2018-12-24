@@ -1,9 +1,9 @@
 const Koa  = require('koa')
 const mount  = require('koa-mount')
 const path = require('path')
-const static  = require('koa-static')
-const templating = require('./app/middlewares/templating')
-const homeRouter  = require('./app/routes/home')
+const serveStatic  = require('koa-static')
+const templating = require('./app/middleware/templating')
+const homeRouter  = require('./app/route/home')
 const config = require('./config')
 
 const app = new Koa()
@@ -19,7 +19,7 @@ app.config = config
  */
 
 
-app.use(mount('/static', static(path.join(__dirname, 'app/static'))))
+app.use(mount('/static', serveStatic(path.join(__dirname, 'app/static'))))
 app.use(templating(path.join(__dirname, 'app/views')))
 
 /**
