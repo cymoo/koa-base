@@ -2,8 +2,8 @@ const Koa  = require('koa')
 const mount  = require('koa-mount')
 const path = require('path')
 const static  = require('koa-static')
-const templating = require('./app/middlewares/templating')
-const homeRouter  = require('./app/routes/home')
+const templating = require('./app/middleware/templating')
+const homeRouter  = require('./app/route/home')
 const config = require('./config')
 
 const app = new Koa()
@@ -19,8 +19,8 @@ app.config = config
  */
 
 
-app.use(mount('/static', static(path.join(__dirname, 'app/static'))))
-app.use(templating(path.join(__dirname, 'app/views')))
+app.use(mount('/public', static(path.join(__dirname, 'app/public'))))
+app.use(templating(path.join(__dirname, 'app/view')))
 
 /**
  * Mount routers
@@ -38,6 +38,5 @@ app.use(async (ctx, next) => {
   await next()
 })
 
-app.listen(3000)
 
 module.exports = app
