@@ -18,9 +18,8 @@ app.config = config
  * Mount middlewares
  */
 
-
 app.use(mount('/public', static(path.join(__dirname, 'app/public'))))
-app.use(templating(path.join(__dirname, 'app/view')))
+app.use(templating(path.join(__dirname, 'app/views')))
 
 /**
  * Mount routers
