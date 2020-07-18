@@ -4,7 +4,7 @@
  * Module dependencies
  */
 
-const app = require('../app.js')
+const app = require('../app')
 const log = require('debug')('koa-base:server')
 const http = require('http')
 
@@ -13,7 +13,7 @@ const http = require('http')
  */
 
 const host = process.env.HOST || app.config.HOST || '127.0.0.1'
-const port = Number((process.env.PORT || app.config.PORT || 3000))
+const port = Number(process.env.PORT || app.config.PORT || 3000)
 
 /**
  * Create HTTP server
@@ -42,16 +42,13 @@ function onError(error) {
   }
 
   // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(`port ${port} requires elevated privileges`)
-      process.exit(1)
-      break
-    case 'EADDRINUSE':
-      console.error(`port ${port} is already in use`)
-      process.exit(1)
-      break
-    default:
-      throw error
+  if (error.code === 'EACCES') {
+    console.error(`port ${port} requires elevated privileges`)
+    process.exit(1)
+  } else if (error.code === 'EADDRINUSE') {
+    console.error(`port ${port} is already in use`)
+    process.exit(1)
+  } else {
+    throw error
   }
 }
