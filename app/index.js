@@ -1,7 +1,7 @@
+const path = require('path')
 const Koa = require('koa')
 const mount = require('koa-mount')
-const path = require('path')
-const koaStatic = require('koa-static')
+const serve = require('koa-static')
 const templating = require('./middleware/templating')
 const homeRouter = require('./route/home')
 const config = require('./config')
@@ -18,8 +18,8 @@ app.config = config
  * Mount middleware
  */
 
-app.use(mount('/static', koaStatic(path.join(__dirname, 'app/static'))))
-app.use(templating(path.join(__dirname, 'app/templates')))
+app.use(mount('/static', serve(path.join(__dirname, 'static'))))
+app.use(templating(path.join(__dirname, 'templates')))
 
 /**
  * Mount routers
