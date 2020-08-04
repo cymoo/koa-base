@@ -5,7 +5,7 @@
  */
 
 const app = require('../app')
-const log = require('debug')('koa-base:server')
+const log = require('debug')('koa:server')
 const http = require('http')
 
 /**

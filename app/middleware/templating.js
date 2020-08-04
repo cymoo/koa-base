@@ -2,7 +2,8 @@ const nunjucks = require('nunjucks')
 
 /* https://nunjucks.bootcss.com/api.html */
 function createEnv(
-  path, {
+  path,
+  {
     autoescape = true,
     throwOnUndefined = false,
     trimBlocks = false,
@@ -12,19 +13,20 @@ function createEnv(
     tags = {},
     filters = [],
     extensions = [],
-    globals = []
+    globals = [],
   } = {}
 ) {
   const env = new nunjucks.Environment(
     new nunjucks.FileSystemLoader(path || 'views', {
       noCache,
-      watch
-    }), {
+      watch,
+    }),
+    {
       autoescape,
       throwOnUndefined,
       trimBlocks,
       lstripBlocks,
-      tags
+      tags,
     }
   )
   filters.forEach(([name, func]) => {
@@ -45,9 +47,7 @@ function templating(path, options) {
   return async (ctx, next) => {
     ctx.render = (view, model = {}) => {
       ctx.response.type = 'text/html'
-      ctx.response.body = env.render(view, { ...ctx.state,
-        ...model
-      })
+      ctx.response.body = env.render(view, { ctx, ...model })
     }
     await next()
   }

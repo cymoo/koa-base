@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ err.status }}
+{% endblock %}
+
+{% block content %}
+  <p>{{ msg }}</p>
+  {% if env === 'development' %}
+    <p>{{ err.stack }}</p>
+  {% endif %}
+{% endblock %}

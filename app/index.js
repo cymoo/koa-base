@@ -6,20 +6,26 @@ const templating = require('./middleware/templating')
 const homeRouter = require('./route/home')
 const config = require('./config')
 
+const log = require('debug')('app')
 const app = new Koa()
 
 /**
- * Add configuration
+ * Inject configuration
  */
 
 app.config = config
 
 /**
- * Mount middleware
+ * Add template engine
+ */
+
+app.use(templating(path.join(__dirname, 'templates')))
+
+/**
+ * Serve static files
  */
 
 app.use(mount('/static', serve(path.join(__dirname, 'static'))))
-app.use(templating(path.join(__dirname, 'templates')))
 
 /**
  * Mount routers
@@ -35,6 +41,10 @@ app.use(async (ctx, next) => {
   ctx.status = 404
   ctx.body = { status: 'error', message: 'page not found' }
   await next()
+})
+
+app.on('error', (err, ctx) => {
+  log(err)
 })
 
 module.exports = app
