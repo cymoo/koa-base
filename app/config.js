@@ -9,12 +9,22 @@ const devConfig = {
   ...baseConfig,
   ENV: 'development',
   DEBUG: true,
+
+  // CORS
+  ACCESS_CONTROL_ALLOW_ORIGIN: '*',
+  ACCESS_CONTROL_ALLOW_METHODS: '*',
+  ACCESS_CONTROL_ALLOW_HEADERS: '*',
 }
 
 const prodConfig = {
   ...baseConfig,
   ENV: 'production',
   DEBUG: false,
+
+  // CORS
+  ACCESS_CONTROL_ALLOW_ORIGIN: '*',
+  ACCESS_CONTROL_ALLOW_METHODS: '*',
+  ACCESS_CONTROL_ALLOW_HEADERS: '*',
 }
 
 const config = process.env.NODE_ENV === 'development' ? devConfig : prodConfig

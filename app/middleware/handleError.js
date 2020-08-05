@@ -11,7 +11,10 @@ const handleError = (type = 'json', template = 'error.html') => {
       const res = ctx.res
       // first unset headers
       res.getHeaderNames().forEach((name) => {
-        if (!name.toLowerCase().startsWith('access_control')) {
+        if (
+          !name.toLowerCase().startsWith('access-control') &&
+          name.toLowerCase() !== 'vary'
+        ) {
           res.removeHeader(name)
         }
       })
@@ -22,11 +25,13 @@ const handleError = (type = 'json', template = 'error.html') => {
       // ENOENT support
       if (err.code === 'ENOENT') statusCode = 404
       // default to 500
-      if (typeof statusCode !== 'number' || !statuses(statusCode)) statusCode = 500
+      if (typeof statusCode !== 'number' || !statuses(statusCode))
+        statusCode = 500
 
       const env = process.env.NODE_ENV || 'development'
 
-      const msg = env === 'development' || err.expose ? err.message : statuses(statusCode)
+      const msg =
+        env === 'development' || err.expose ? err.message : statuses(statusCode)
       ctx.status = err.status = statusCode
 
       switch (type) {

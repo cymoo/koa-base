@@ -1,9 +1,6 @@
 const Router = require('koa-router')
-const handleError = require('../middleware/handleError')
 
 const router = new Router()
-
-router.use(handleError('html'))
 
 router.get('/will-throw', async (ctx) => {
   const err = new Error('hack!')

@@ -4,7 +4,9 @@ const mount = require('koa-mount')
 const serve = require('koa-static')
 const templating = require('./middleware/templating')
 const homeRouter = require('./route/home')
+const apiRouter = require('./route/api')
 const config = require('./config')
+const handleError = require('./middleware/handleError')
 
 const log = require('debug')('app')
 const app = new Koa()
@@ -31,17 +33,13 @@ app.use(mount('/static', serve(path.join(__dirname, 'static'))))
  * Mount routers
  */
 
+app.use(mount('/home', handleError('html')))
 app.use(mount('/home', homeRouter.routes()))
+app.use(mount('/home', homeRouter.allowedMethods()))
 
-/**
- * Handle error
- */
-
-app.use(async (ctx, next) => {
-  ctx.status = 404
-  ctx.body = { status: 'error', message: 'page not found' }
-  await next()
-})
+app.use(mount('/api', handleError('json')))
+app.use(mount('/api', apiRouter.routes()))
+app.use(mount('/api', apiRouter.allowedMethods()))
 
 app.on('error', (err, ctx) => {
   log(err)
