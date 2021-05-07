@@ -20,7 +20,7 @@
     "koa-mount": "^4.0.0",
     "koa-router": "^9.1.0",
     "koa-static": "^5.0.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "nunjucks": "^3.2.1",
     "pm2": "^4.4.0",
     "redis": "^3.0.2",
